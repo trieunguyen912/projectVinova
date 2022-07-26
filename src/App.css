@@ -36,3 +36,32 @@
     transform: rotate(360deg);
   }
 }
+
+.container{
+  display: flex;
+}
+
+.main{
+  margin-top: 12px;
+  flex: 4;
+  background-color: white;
+}
+
+#main {
+  transition: margin-left .5s;
+  padding: 20px;
+}
+
+.sidebar {
+  flex: 1;
+  height: calc(100vh - 50px);
+  background-color: rgb(251, 251, 255);
+  position: sticky;
+  top: 50px;
+}
+
+.sidebarClose {
+  display: none;
+  transition: opacity 1s ease-out;
+
+}

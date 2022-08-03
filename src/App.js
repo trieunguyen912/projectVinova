@@ -8,6 +8,7 @@ import Category from './components/category';
 import Reward from './components/reward';
 import Settings from './components/settings';
 import UsersDetail from './components/usersDetail';
+import UsersForm from './components/userForm';
 
 function App() {
     return (
@@ -15,6 +16,7 @@ function App() {
             <Routes>
                 <Route path='/' element={<DefaultLayout><Home /></DefaultLayout>}></Route>
                 <Route path='/users' element={<DefaultLayout><Users /></DefaultLayout>}></Route>
+                <Route path='/userForm' element={<DefaultLayout><UsersForm /></DefaultLayout>} />
                 <Route path='/users/:id' element={<DefaultLayout><UsersDetail /></DefaultLayout>}></Route>
                 <Route path='/post' element={<DefaultLayout><Post /></DefaultLayout>}></Route>
                 <Route path='/category' element={<DefaultLayout><Category /></DefaultLayout>}></Route>

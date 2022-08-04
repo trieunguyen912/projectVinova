@@ -3,9 +3,10 @@ import { Box, Button, CircularProgress, Dialog, DialogTitle, TextField } from '@
 import axios from 'axios';
 import React from 'react'
 import { useForm } from 'react-hook-form'
-import { useDispatch } from 'react-redux';
-import PostList from './PostList';
-
+// import { useDispatch } from 'react-redux';
+// import PostList from './PostList';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react'
 
 
 function AddForm(props) {
@@ -34,35 +35,34 @@ function AddForm(props) {
 
 
 
-    // //thêm
-    // const navigate = useNavigate()
-    // const [loading, setLoading] = useState(false)
-    // const handleNewUser = async (formValue) => {
-    //     setLoading(true)
-    //     axios.put(`${POSTS_URL}api/admin/posts`, {
-    //         "categoryId": formValue.categoryId,
-    //         "postId": formValue.PostId,
-    //         "userId": formValue.UserId,
-    //         "guid": formValue.Guid,
-    //         "title": formValue.Title,
-    //         "content": formValue.Content,
-    //         "slug": formValue.Slug,
-    //         "thumbnail": formValue.Thumbnail,
-    //         "status": formValue.Status,
-    //         "totalViews": formValue.TotalViews,
-    //         "type": formValue.Type,
-    //         "approvedBy": formValue.ApprovedBy,
-    //         "approveDateTime": formValue.ApproveDateTime
-    //     })
-    //         .then(() => {
-    //             setLoading(false)
-    //             navigate('/posts')
-    //         })
-    // }
+    //thêm
+    const navigate = useNavigate()
+    const [loading, setLoading] = useState(false)
+    const handleNewUser = async (formValue) => {
+        setLoading(true)
+        axios.post(`${POSTS_URL}`, {
+            "categoryId": Number(formValue.CategoryId),
+            "postId": formValue.PostId,
+            "userId": Number(formValue.UserId),
+            "title": formValue.Title,
+            "content": formValue.Content,
+            "slug": formValue.Slug,
+            "thumbnail": formValue.Thumbnail,
+            "status": Number(formValue.Status),
+            "totalViews": Number(formValue.TotalViews),
+            "type": Number(formValue.Type),
+            "approvedBy": Number(formValue.ApprovedBy),
+            "approveDateTime": "2022-08-04T05:36:46.865Z"
+        })
+            .then(() => {
+                setLoading(false)
+                navigate('/posts')
+            })
+    }
 
-    // if (loading)
-    //     return <CircularProgress sx={{ margin: 30 }} />
-    // else
+    if (loading)
+        return <CircularProgress sx={{ margin: 30 }} />
+    else
 
 
 
@@ -80,7 +80,7 @@ function AddForm(props) {
                         id = "standard-basic"
                         label ="CategoryId"
                         variant='standard'
-                        {...register('CategoryId', { required: { value: true, message: 'First name is required'} })}
+                        {...register('CategoryId', { required: { value: Number, message: 'First name is required'} })}
                     />
 
                     <TextField 
@@ -96,7 +96,7 @@ function AddForm(props) {
                         id = "standard-basic"
                         label ="UserId"
                         variant='standard'
-                        {...register('UserId', { required: { value: true, message: 'First name is required'} })}
+                        {...register('UserId', { required: { value: Number, message: 'First name is required'} })}
                     />
                     <TextField 
                         sx={{ width: 1, m: 2 }}
@@ -168,7 +168,7 @@ function AddForm(props) {
                         variant='standard'
                         {...register('ApproveDateTime', { required: { value: true, message: 'First name is required'} })}
                     />
-                    <Button variant='text'>Submit</Button>
+                    <Button variant='text' onClick={handleSubmit(handleNewUser)}>Submit</Button>
                 </div>
             </form>
         </Box>

@@ -11,3 +11,17 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.search{
+  float: left;
+  margin-right: 890px;
+}
+.create{
+  float: left;
+}
+.create button{
+  background-color: green;
+  color: aliceblue
+}
+.TableRow{
+  padding-top: 10px;
+}

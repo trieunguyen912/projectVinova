@@ -3,7 +3,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { useState } from 'react';
 import Sidebar from './sidebar/sidebar'
 import '../App.css'
-
+import { useNavigate } from "react-router-dom"
 function DefaultLayout({children}) {
 
   const [open, setOpen] =useState(true)
@@ -11,7 +11,8 @@ function DefaultLayout({children}) {
   const navToggle = () =>{
     setOpen(!open)
   }
-
+  const navigate = useNavigate();
+  const goBack = () => navigate("/login");
   return (
     <div className='container'>
       <div id='sidebar' className={open ? 'sidebar' : 'sidebarClose'}>
@@ -21,6 +22,9 @@ function DefaultLayout({children}) {
         <div className="mainTabWrapper">
           <MenuIcon onClick={navToggle}/>
           <hr/>
+          <div className="flexGrow">
+          <button onClick={goBack}>Go Back</button>
+      </div>
         </div>        
         {children}
       </div>

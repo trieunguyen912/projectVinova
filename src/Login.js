@@ -1,6 +1,8 @@
 import { useRef, useState, useEffect } from 'react';
 import useAuth from './hooks/useAuth';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
+import useInput from '../src/hooks/useInput';
+import useToggle from '../src/hooks/useToggle';
 
 import axios from './api/axios';
 const LOGIN_URL = 'keycloak/login';
@@ -15,10 +17,10 @@ const Login = () => {
     const userRef = useRef();
     const errRef = useRef();
 
-    const [username, setUser] = useState('');
+    const [username, resetUser, userAttribs] = useInput('username', '')
     const [password, setPwd] = useState('');
     const [errMsg, setErrMsg] = useState('');
-
+    const [check, toggleCheck] = useToggle('persist', false);
     useEffect(() => {
         userRef.current.focus();
     }, [])
@@ -40,10 +42,11 @@ const Login = () => {
             );
             console.log(JSON.stringify(response?.data));
         
-            const accessToken = response?.data?.accessToken;
-            const roles = response?.data?.roles;
-            setAuth({ username,password, roles, accessToken });
-            setUser('');
+            const accessToken = response?.data?.result?.accessToken;
+            console.log(JSON.stringify(accessToken));
+            
+            setAuth({ username,password, accessToken });
+            resetUser();
             setPwd('');
             navigate(from, { replace: true });
         } catch (err) {
@@ -58,8 +61,9 @@ const Login = () => {
             }
             errRef.current.focus();
         }
+       
     }
-
+    
     return (
 
         <section>
@@ -72,13 +76,13 @@ const Login = () => {
                     id="username"
                     ref={userRef}
                     autoComplete="off"
-                    onChange={(e) => setUser(e.target.value)}
-                    value={username}
+                    {...userAttribs}
                     required
                 />
 
                 <label htmlFor="password">Password:</label>
                 <input
+
                     type="password"
                     id="password"
                     onChange={(e) => setPwd(e.target.value)}
@@ -86,13 +90,17 @@ const Login = () => {
                     required
                 />
                 <button>Sign In</button>
+                <div className="persistCheck">
+                    <input
+                        type="checkbox"
+                        id="persist"
+                        onChange={toggleCheck}
+                        checked={check}
+                    />
+                    <label htmlFor="persist">Accept storage</label>
+                </div>
             </form>
-            <p>
-                Need an Account?<br />
-                <span className="line">
-                    <Link to="/register">Sign Up</Link>
-                </span>
-            </p>
+            
         </section>
 
     )
